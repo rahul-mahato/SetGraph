@@ -16,7 +16,18 @@ const splitsSlice = createSlice({
   name: 'splits',
   initialState,
   reducers: {
-    addSplit: splitsAdapter.addOne,
+    addNewSplit: (
+      state,
+      action: PayloadAction<Pick<Split, 'name' | 'description'>>,
+    ) => {
+      const { name, description } = action.payload;
+      splitsAdapter.addOne(state, {
+        id: state.ids.length + 1,
+        name,
+        description,
+        exerciseIds: [],
+      });
+    },
     updateSplit: splitsAdapter.updateOne,
     removeSplit: splitsAdapter.removeOne,
     setAllSplits: splitsAdapter.setAll,
@@ -34,8 +45,7 @@ const splitsSlice = createSlice({
   },
 });
 
-export const { addSplit, updateSplit, removeSplit, setAllSplits, upsertSplit } =
-  splitsSlice.actions;
+export const splitsAction = splitsSlice.actions;
 
 export default splitsSlice.reducer;
 

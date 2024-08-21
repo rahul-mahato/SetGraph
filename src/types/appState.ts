@@ -1,3 +1,5 @@
+import { current } from '@reduxjs/toolkit';
+
 export type Entity<T> = {
   [k in keyof T]: T[k];
 };
@@ -25,27 +27,27 @@ export type User = Entity<{
 export interface Split {
   id: number;
   name: string;
+  description: string;
   exerciseIds: number[];
 }
 
 export interface Exercise {
-  id: number;
+  id: string | number;
   name: string;
   description: string;
+  workouts: {
+    [currentDate: string]: WorkoutSession;
+  };
 }
 
 export interface Set {
-  id: number;
+  id: string | number;
   weight: number;
   repetitions: number;
 }
 
 export interface WorkoutSession {
-  id: number;
+  date: string; // unique date
   splitId: number;
-  date: string;
-  exercises: {
-    exerciseId: number;
-    sets: Set[];
-  }[];
+  sets: Set[];
 }
